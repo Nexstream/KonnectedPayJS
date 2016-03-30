@@ -1,5 +1,8 @@
 "use strict"
 
+window.KonnectedPay = window.KonnectedPay || {}
+;(function () { // file-local scope...
+
 // Helpers ---------------------------------------------------------------------
 
 var validateConfig = function (config)
@@ -57,9 +60,6 @@ var hashParams = function ()
 }
 
 // Public API ------------------------------------------------------------------
-
-// Do not clobber existing object with the same name
-window.KonnectedPay = window.KonnectedPay || {}
 
 KonnectedPay.requestPayment = function (config, blank)
 {
@@ -120,3 +120,5 @@ KonnectedPay.getPaymentResults = function (method)
         catch (e) { throw new Error("Invalid results: "+results) }
     }
 }
+
+})(); // end file-local scope
