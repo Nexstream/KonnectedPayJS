@@ -83,3 +83,20 @@ thrown.
 
 Returns null if there are no payment results available, the results object if a
 valid result is found.
+
+
+### getTokens
+
+Get a list of remembered payment methods
+
+```javascript
+KonnectedPay.getTokens(clientSecret, userId, function (successful, tokens) {
+    if(successful) {
+        // Successfully retrieved tokens.
+        // `tokens` parameter is an array of tokens.
+    } else {
+        // Failed to retrieve tokens.
+        // `tokens` parameter is the error message.
+    }
+})
+```

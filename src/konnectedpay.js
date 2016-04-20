@@ -20,6 +20,11 @@
 window.KonnectedPay = window.KonnectedPay || {}
 ;(function () { // file-local scope...
 
+// Config ----------------------------------------------------------------------
+
+var SERVER = "https://pay.appxtream.com"
+
+
 // Helpers ---------------------------------------------------------------------
 
 var validateConfig = function (config)
@@ -137,6 +142,47 @@ KonnectedPay.getPaymentResults = function (method)
         try { return JSON.parse(results) }
         catch (e) { throw new Error("Invalid results: "+results) }
     }
+}
+
+KonnectedPay.getTokens = function (clientSecret, userId, callback)
+{
+    var url = SERVER + "/payment/token/" + encodeURIComponent(userId) + "?clientSecret=" + encodeURIComponent(clientSecret)
+
+    var req = new XMLHttpRequest()
+    req.onreadystatechange = function () {
+        switch(req.readyState) {
+            case 4: // DONE
+                if(req.status < 200 || req.status >= 300) {
+                    callback(false, "Failed to retrieve tokens")
+                } else {
+                    try {
+                        var obj = JSON.parse(this.responseText)
+                        if(obj === null) obj = []
+                        if(typeof obj != "object" || !(obj instanceof Array)) {
+                            throw new Error("Response should be an array")
+                        }
+                    } catch (e) {
+                        callback(false, (e && e.message) || "Invalid response from server")
+                        return
+                    }
+
+                    callback(
+                        true,
+                        obj.map(function (card) {
+                            return {
+                                token: card.token,
+                                maskCard: card.maskCard,
+                                maskCardType: card.maskCardType,
+                            };
+                        })
+                    )
+                }
+
+                break
+        }
+    };
+    req.open("GET", url)
+    req.send()
 }
 
 })(); // end file-local scope
