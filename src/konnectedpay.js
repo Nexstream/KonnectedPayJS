@@ -89,9 +89,12 @@ KonnectedPay.requestPayment = function (config, blank)
 {
     validateConfig(config)
 
+    var amount = config.amount
+    if(typeof amount == "string") amount = parseFloat(amount)
+
     var url = "https://pay.appxtream.com/payment"
             + "?tranId="+encodeURIComponent(config.transId)
-            + "&amount="+encodeURIComponent(config.amount)
+            + "&amount="+encodeURIComponent(amount.toFixed(2))
             + "&currencyCode="+encodeURIComponent(config.currencyCode)
             + "&merchantId="+encodeURIComponent(config.merchantId)
             + "&device="+encodeURIComponent(navigator.userAgent)
