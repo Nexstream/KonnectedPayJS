@@ -1,6 +1,6 @@
 {
   "name": "konnectedpay-js",
-  "version": "0.1.0-alpha",
+  "version": "1.0.0",
   "description": "A JavaScript library to accept payments using the KonnectedPay payment gateway.",
   "repository": {
     "type": "git",
