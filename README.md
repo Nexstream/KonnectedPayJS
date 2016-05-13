@@ -84,6 +84,18 @@ thrown.
 Returns null if there are no payment results available, the results object if a
 valid result is found.
 
+Results object has this format:
+
+```
+{
+    "amount": "1.00",
+    "status": "S",
+    "code": "0",
+    "desc": "No error",
+    "tranId": "PY130516085834-233100"
+}
+```
+
 
 ### getTokens
 
