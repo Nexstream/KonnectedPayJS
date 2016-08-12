@@ -15,6 +15,136 @@ Installation
 5. Start using the [API](#api)
 
 
+User Flows
+----------
+
+### Same Window - Completed Transaction
+
+```
+Browser Window             | KonnectedPay Server      | Merchant's Server
+---------------------------|--------------------------|-------------------------
+Merchant's order           |                          |
+summary page.              |                          |
+                           |                          |
+Click Pay button. Notify   |                          |
+merchant server to create  |                          |
+a transaction ID.          |                          |
+                           |                          |
+Receive transaction ID.    |                          | Generate merchant
+                           |                          | transaction ID.
+                           |                          |
+.requestPayment()          |                          |
+                           |                          |
+KonnectedPay landing page. | KonnectedPay transaction |
+                           | record created.          |
+                           |                          |
+User submits form.         |                          |
+                           |                          |
+... Bank pages, etc ...    |                          |
+                           |                          |
+                           | KonnectedPay transaction |
+                           | record updated.          |
+                           |                          |
+                           | Send Backend POST        | Receive Backend POST.
+                           |                          | Update transaction
+                           |                          | status.
+                           |                          |
+KonnectedPay results page. |                          |
+                           |                          |
+Merchant's Return page.    |                          |
+                           |                          |
+.getPaymentResults()       |                          |
+```
+
+### Same Window - Incomplete Transaction (Back Button)
+
+```
+Browser Window             | KonnectedPay Server      | Merchant's Server
+---------------------------|--------------------------|-------------------------
+Merchant's order           |                          |
+summary page.              |                          |
+                           |                          |
+Click Pay button. Notify   |                          |
+merchant server to create  |                          |
+a transaction ID.          |                          |
+                           |                          |
+Receive transaction ID.    |                          | Generate merchant
+                           |                          | transaction ID.
+                           |                          |
+.requestPayment()          |                          |
+                           |                          |
+KonnectedPay landing page. | KonnectedPay transaction |
+                           | record created.          |
+                           |                          |
+User clicks back button.   |                          |
+                           |                          |
+Merchant's order           |                          |
+summary page.              |                          |
+                           |                          |
+- - - - - - - - - - - - - -|- - - - - - - - - - - - - | - - - - - - - - - - - -
+                           |                          |
+Click Pay button again.    |                          | Either create a new
+                           |                          | transaction ID or
+                           |                          | warn user that a previous
+                           |                          | transaction is still in
+                           |                          | progress. (You can call
+                           |                          | Requery API to get current
+                           |                          | payment status.)
+                           |                          |
+Back to normal flow if     |                          |
+concurrent payment is      |                          |
+allowed.                   |                          |
+                           |                          |
+- - - - - - - - - - - - - -|- - - - - - - - - - - - - | - - - - - - - - - - - -
+                           |                          |
+                           |                          | ... wait for timeout ...
+                           |                          |
+                           |                          | Re-query KonnectedPay
+                           |                          | for payment status.
+                           |                          | Update transaction
+                           |                          | status.
+```
+
+**Note:** merchant's payment summary page should check for any in-progress
+transaction if double purchases should be avoided. This check could be based on
+user account / email address / etc at the merchant's discretion.
+
+### Same Window - Incomplete Transaction (Closed Window)
+
+```
+Browser Window             | KonnectedPay Server      | Merchant's Server
+---------------------------|--------------------------|-------------------------
+Merchant's order           |                          |
+summary page.              |                          |
+                           |                          |
+Click Pay button. Notify   |                          |
+merchant server to create  |                          |
+a transaction ID.          |                          |
+                           |                          |
+Receive transaction ID.    |                          | Generate merchant
+                           |                          | transaction ID.
+                           |                          |
+.requestPayment()          |                          |
+                           |                          |
+KonnectedPay landing page. | KonnectedPay transaction |
+                           | record created.          |
+                           |                          |
+User closes the browser    |                          |
+window.                    |                          |
+                           |                          |
+                           |                          | ... wait for timeout ...
+                           |                          |
+                           |                          | Re-query KonnectedPay
+                           |                          | for payment status.
+                           |                          | Update transaction
+                           |                          | status.
+```
+
+**Note:** merchant's payment summary page should check for any in-progress
+transaction if double purchases should be avoided. This check could be based on
+user account / email address / etc at the merchant's discretion.
+
+
 <a name="api"></a>
 API
 ---
