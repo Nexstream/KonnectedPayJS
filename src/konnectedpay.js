@@ -83,7 +83,7 @@ var hashParams = function ()
 
 // Public API ------------------------------------------------------------------
 
-KonnectedPay.VERSION = "1.0.0"
+KonnectedPay.VERSION = "1.1.1"
 
 KonnectedPay.requestPayment = function (config, blank)
 {
