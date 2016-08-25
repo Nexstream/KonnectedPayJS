@@ -242,3 +242,20 @@ KonnectedPay.getTokens(clientSecret, userId, function (successful, tokens) {
     }
 })
 ```
+
+
+### deleteToken
+
+Delete a previously saved token (as returned by the `.getTokens()`
+function).
+
+```javascript
+KonnectedPay.deleteToken(clientSecret, userId, token, function (successful, errorMsg) {
+    if(successful) {
+        // Successfully deleted token.
+    } else {
+        // Failed to delete token.
+        // `errorMsg` parameter is the error message (string).
+    }
+})
+```

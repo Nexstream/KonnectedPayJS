@@ -188,4 +188,31 @@ KonnectedPay.getTokens = function (clientSecret, userId, callback)
     req.send()
 }
 
+KonnectedPay.deleteToken = function (clientSecret, userId, token, callback)
+{
+    var url = SERVER
+            + "/payment/token/" + encodeURIComponent(userId)
+            + "/" + encodeURIComponent(token)
+            + "?clientSecret=" + encodeURIComponent(clientSecret);
+
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function () {
+        switch(req.readyState) {
+            case 4: // DONE
+                if(req.status >= 200 && req.status < 300) {
+                    callback(true);
+                } else {
+                    var obj;
+                    try { obj = JSON.parse(this.responseText) }
+                    catch (e) {}
+                    callback(false, (obj && obj.error) || "Failed to delete token");
+                }
+
+                break;
+        }
+    };
+    req.open("DELETE", url);
+    req.send();
+}
+
 })(); // end file-local scope
