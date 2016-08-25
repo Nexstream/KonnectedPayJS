@@ -235,7 +235,15 @@ Get a list of remembered payment methods
 KonnectedPay.getTokens(clientSecret, userId, function (successful, tokens) {
     if(successful) {
         // Successfully retrieved tokens.
-        // `tokens` parameter is an array of tokens.
+        // `tokens` parameter is an array of tokens, with this structure:
+        // [
+        //     {
+        //         token: "opaque string to pass into .requestPayment() or .deleteToken()",
+        //         maskCard: "411111xxxxxx1111",
+        //         maskCardType: "e.g. V, M, A, etc",
+        //     },
+        //     ...
+        // ]
     } else {
         // Failed to retrieve tokens.
         // `tokens` parameter is the error message.
