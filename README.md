@@ -165,6 +165,9 @@ KonnectedPay.requestPayment({
     responseMethod: "GET" | "POST" | "HASH" | undefined,
     rememberCard: true, // OPTIONAL. Set to false if you do NOT want to
         // remember the user's card (see Retrieving Tokenised Payment Method).
+    token: "...", // OPTIONAL. Set this to the token which is retrieved via the
+        // `getTokens()` method to make a payment using a previously saved card.
+        // If this parameter is not provided, payment is made using a new card.
 }, "_blank")
 ```
 

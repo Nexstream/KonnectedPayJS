@@ -112,6 +112,9 @@ KonnectedPay.requestPayment = function (config, blank)
     if(config.responseMethod != null) {
         url += "&returnMethod="+encodeURIComponent(config.responseMethod)
     }
+    if(config.token != null) {
+        url += "&token="+encodeURIComponent(config.token)
+    }
 
     if(blank != "_blank") {
         location.assign(url)
